@@ -1,0 +1,14 @@
+name: Deploy Check
+on:
+  pull_request_target:
+    types: [opened]
+jobs:
+  deploy-check:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - run: ./scripts/validate.sh
+      - run: echo "Deploy check passed for ${{ github.event.pull_request.head.ref }}"
